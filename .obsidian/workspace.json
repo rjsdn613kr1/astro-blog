@@ -1,0 +1,192 @@
+{
+  "main": {
+    "id": "a268131fca87624e",
+    "type": "split",
+    "children": [
+      {
+        "id": "340a7876971cbd09",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0f83d916bc3fc3d2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "블로그_사용법.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "블로그_사용법"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cee782ab89ef3041",
+    "type": "split",
+    "children": [
+      {
+        "id": "194ac00959422b41",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "de82eaf0e71c67ea",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "파일 탐색기"
+            }
+          },
+          {
+            "id": "56b05bcc02dc41f6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "검색"
+            }
+          },
+          {
+            "id": "c4bf8dd821469dc5",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "북마크"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a0aa185df162cf9c",
+    "type": "split",
+    "children": [
+      {
+        "id": "adaacfc0b44a9de0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5d66061022738796",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "블로그_사용법.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "블로그_사용법 의 백링크"
+            }
+          },
+          {
+            "id": "a0f98602aaa7fff8",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "블로그_사용법.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "블로그_사용법 의 나가는 링크"
+            }
+          },
+          {
+            "id": "1ed0a8d78285de1b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "태그"
+            }
+          },
+          {
+            "id": "f5d40b7dfb2c2542",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "모든 속성"
+            }
+          },
+          {
+            "id": "acf27774a9ad056f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "블로그_사용법.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "블로그_사용법 의 개요"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:빠른 전환기 열기": false,
+      "graph:그래프 뷰 열기": false,
+      "canvas:새 캔버스 만들기": false,
+      "daily-notes:오늘의 일일 노트 열기": false,
+      "templates:템플릿 삽입": false,
+      "command-palette:명령어 팔레트 열기": false,
+      "bases:새 베이스 생성하기": false
+    }
+  },
+  "active": "de82eaf0e71c67ea",
+  "lastOpenFiles": [
+    "README.md",
+    "AstroPaper-lighthouse-score.svg",
+    "블로그_사용법.md"
+  ]
+}
