@@ -7,74 +7,52 @@ import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const posts = await getCollection("blog");
-
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+
+// 카테고리별 최신 글 3개씩 묶기
+const categoryMap = new Map<string, typeof sortedPosts>();
+for (const post of sortedPosts) {
+  if (post.data.category && !post.data.draft) {
+    const arr = categoryMap.get(post.data.category) ?? [];
+    if (arr.length < 3) arr.push(post);
+    categoryMap.set(post.data.category, arr);
+  }
+}
+const categoryEntries = [...categoryMap.entries()];
 ---
 
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
+
+    <!-- 저자 소개 섹션 -->
     <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
         G.D
       </h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
-
-      <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+      <p class="my-2 leading-relaxed">
+        생각과 경험을 기록하는 공간입니다.
       </p>
-      <p class="mt-2">
-        Read the blog posts or check
-        <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
+      <div class="mt-4 flex max-sm:flex-col sm:items-center">
+        <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
+        <Socials />
+      </div>
     </section>
 
+    <!-- Featured 섹션 -->
     {
       featuredPosts.length > 0 && (
         <section
           id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
+          class:list={["pt-12 pb-6", "border-b border-border"]}
         >
           <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
           <ul>
@@ -86,22 +64,44 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       )
     }
 
+    <!-- 카테고리별 섹션 -->
     {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
+      categoryEntries.length > 0
+        ? categoryEntries.map(([category, catPosts]) => (
+            <section class="pt-12 pb-6 border-b border-border">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold tracking-wide">{category}</h2>
+                <LinkButton
+                  href={`${base}/categories/${category}/`}
+                  class="text-sm hover:text-accent"
+                >
+                  전체 보기
+                  <IconArrowRight class="inline-block rtl:-rotate-180" />
+                </LinkButton>
+              </div>
+              <ul>
+                {catPosts.map(data => (
+                  <Card variant="h3" {...data} />
+                ))}
+              </ul>
+            </section>
+          ))
+        : recentPosts.length > 0 && (
+            <section id="recent-posts" class="pt-12 pb-6">
+              <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+              <ul>
+                {recentPosts
+                  .slice(0, SITE.postPerIndex)
+                  .map(data => (
+                    <Card variant="h3" {...data} />
+                  ))}
+              </ul>
+            </section>
+          )
     }
 
     <div class="my-8 text-center">
-      <LinkButton href="/posts/">
+      <LinkButton href={`${base}/posts/`}>
         All Posts
         <IconArrowRight class="inline-block rtl:-rotate-180" />
       </LinkButton>

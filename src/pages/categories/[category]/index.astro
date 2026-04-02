@@ -23,7 +23,9 @@ export async function getStaticPaths() {
     params: { category },
     props: {
       posts: getSortedPosts(
-        posts.filter(post => !post.data.draft && post.data.category === category)
+        posts.filter(
+          post => !post.data.draft && post.data.category === category
+        )
       ),
     },
   }));

@@ -6,41 +6,60 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { SITE } from "@/config";
 
-const posts = await getCollection("blog");
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-const categories = [
-  ...new Set(
-    posts
-      .filter(post => !post.data.draft && post.data.category)
-      .map(post => post.data.category as string)
-  ),
-].sort();
+const posts = await getCollection("blog");
+const publishedPosts = posts.filter(p => !p.data.draft);
+
+// 카테고리별 글 수 집계
+const categoryMap = new Map<string, number>();
+for (const post of publishedPosts) {
+  if (post.data.category) {
+    categoryMap.set(
+      post.data.category,
+      (categoryMap.get(post.data.category) ?? 0) + 1
+    );
+  }
+}
+
+const categories = [...categoryMap.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .map(([name, count]) => ({ name, count }));
 ---
 
 <Layout title={`Categories | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Categories" pageDesc="All the categories of posts.">
-    <ul class="flex flex-wrap gap-4">
-      {
-        categories.map(category => (
-          <li>
-            <a
-              href={`/astro-blog/categories/${category}/`}
-              class="inline-block rounded border border-border px-4 py-2 text-sm font-medium hover:text-accent"
-            >
-              {category}
-            </a>
-          </li>
-        ))
-      }
-      {
-        categories.length === 0 && (
-          <p class="text-skin-base opacity-60">
-            글에 category 항목을 추가하면 여기에 표시됩니다.
-          </p>
-        )
-      }
-    </ul>
+  <Main pageTitle="Categories" pageDesc="All the categories used in posts.">
+    {
+      categories.length === 0 ? (
+        <p class="opacity-60">
+          글에 <code>category:</code> 항목을 추가하면 여기에 표시됩니다.
+        </p>
+      ) : (
+        <ul class="flex flex-col gap-4">
+          {categories.map(({ name, count }) => (
+            <li>
+              <a
+                href={`${base}/categories/${name}/`}
+                class="group flex items-center justify-between rounded-lg border border-border px-5 py-4 hover:border-accent transition-colors"
+              >
+                <div>
+                  <span class="text-lg font-semibold group-hover:text-accent transition-colors">
+                    {name}
+                  </span>
+                  <p class="mt-1 text-sm opacity-60">
+                    All the articles in the "{name}" category.
+                  </p>
+                </div>
+                <span class="ml-4 shrink-0 rounded-full bg-border px-3 py-1 text-sm font-medium">
+                  {count}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   </Main>
   <Footer />
 </Layout>
