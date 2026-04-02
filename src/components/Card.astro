@@ -11,11 +11,12 @@ type Props = {
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
 const { title, description, ...props } = data;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <li class="my-6">
   <a
-    href={getPath(id, filePath)}
+    href={`${base}${getPath(id, filePath)}`}
     class:list={[
       "inline-block text-lg font-medium text-accent",
       "decoration-dashed underline-offset-4 hover:underline",
