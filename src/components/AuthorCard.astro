@@ -1,0 +1,38 @@
+---
+import { SITE } from "@/config";
+import Socials from "@/components/Socials.astro";
+
+const githubUsername =
+  SITE.profile?.split("github.com/")[1]?.replace(/\/$/, "") ?? "";
+const avatarUrl = githubUsername
+  ? `https://github.com/${githubUsername}.png`
+  : "";
+---
+
+<div class="my-8 flex items-start gap-5 rounded-xl border border-border p-6">
+  {
+    avatarUrl && (
+      <img
+        src={avatarUrl}
+        alt={SITE.author}
+        class="size-16 shrink-0 rounded-full object-cover"
+        width="64"
+        height="64"
+      />
+    )
+  }
+  <div class="min-w-0 flex-1">
+    <a
+      href={SITE.profile}
+      class="font-bold hover:text-accent"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {SITE.author}
+    </a>
+    <p class="mt-1 text-sm opacity-75">{SITE.desc}</p>
+    <div class="mt-3">
+      <Socials />
+    </div>
+  </div>
+</div>
