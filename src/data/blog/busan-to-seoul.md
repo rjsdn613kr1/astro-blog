@@ -15,6 +15,8 @@ featured: false
 draft: false
 ---
 
+![부산에서 서울 가는 법 — 이동 수단 완벽 비교](https://images.unsplash.com/photo-1580541832626-2a7131ee809f?w=1200)
+
 > **📌 핵심 요약**
 >
 > - KTX·SRT는 약 2시간 20분~2시간 30분으로 가장 빠르고 편리하다
