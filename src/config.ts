@@ -25,7 +25,7 @@ export const SITE = {
 // Giscus 댓글 설정
 // https://giscus.app/ 에서 설정값을 얻어 아래를 채워주세요
 export const GISCUS = {
-  enabled: false, // true로 바꾸면 댓글 활성화
+  enabled: true, // true로 바꾸면 댓글 활성화
   repo: "rjsdn613kr1/astro-blog" as `${string}/${string}`,
   repoId: "R_kgDOR38xZg", // giscus.app에서 발급받은 repoId
   category: "Announcements",
