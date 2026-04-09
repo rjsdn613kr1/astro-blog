@@ -6,8 +6,12 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
+import Datetime from "@/components/Datetime.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
+import { getPath } from "@/utils/getPath";
+import { slugifyStr } from "@/utils/slugify";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import IconCalendar from "@/assets/icons/IconCalendar.svg";
 import { SITE } from "@/config";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -47,57 +51,112 @@ const categoryEntries = [...categoryMap.entries()];
       </div>
     </section>
 
-    <!-- Featured 섹션 -->
+    <!-- Featured 섹션: 수직 그리드 카드 (이미지 상단) -->
     {
       featuredPosts.length > 0 && (
         <section
           id="featured"
           class:list={["pt-12 pb-6", "border-b border-border"]}
         >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
+          <h2 class="mb-6 text-2xl font-semibold tracking-wide">Featured</h2>
+          <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {featuredPosts.map(post => {
+              const { title, description, ogImage, category, ...dtProps } = post.data;
+              const imgSrc = ogImage
+                ? typeof ogImage === "string" ? ogImage : ogImage.src
+                : `${base}${getPath(post.id, post.filePath)}/index.png`;
+              return (
+                <li>
+                  <a
+                    href={`${base}${getPath(post.id, post.filePath)}`}
+                    class="group block overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
+                  >
+                    <div class="aspect-video w-full overflow-hidden bg-muted">
+                      <img
+                        src={imgSrc}
+                        alt={title}
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="p-4">
+                      {category && (
+                        <p class="text-xs font-medium opacity-70">{category}</p>
+                      )}
+                      <h3
+                        class="mt-1 text-lg font-medium text-accent decoration-dashed group-hover:underline"
+                        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+                      >
+                        {title}
+                      </h3>
+                      <p class="mt-1 line-clamp-5 text-base opacity-80">{description}</p>
+                      <div class="mt-2">
+                        <Datetime {...dtProps} />
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </section>
       )
     }
 
-    <!-- 카테고리별 섹션 -->
+    <!-- 카테고리별 섹션: 2열 그리드 + 텍스트 리스트 -->
     {
-      categoryEntries.length > 0
-        ? categoryEntries.map(([category, catPosts]) => (
-            <section class="pt-12 pb-6 border-b border-border">
-              <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-semibold tracking-wide">{category}</h2>
-                <LinkButton
-                  href={`${base}/categories/${category}/`}
-                  class="text-sm hover:text-accent"
-                >
-                  전체 보기
-                  <IconArrowRight class="inline-block rtl:-rotate-180" />
-                </LinkButton>
-              </div>
-              <ul>
-                {catPosts.map(data => (
-                  <Card variant="h3" {...data} />
-                ))}
-              </ul>
-            </section>
-          ))
-        : recentPosts.length > 0 && (
-            <section id="recent-posts" class="pt-12 pb-6">
-              <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-              <ul>
-                {recentPosts
-                  .slice(0, SITE.postPerIndex)
-                  .map(data => (
-                    <Card variant="h3" {...data} />
+      categoryEntries.length > 0 ? (
+        <section class="pt-12 pb-6 border-b border-border">
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            {categoryEntries.map(([category, catPosts]) => (
+              <div class="pt-6 pb-4">
+                <h2 class="mb-4 text-xl font-semibold tracking-wide">{category}</h2>
+                <ul class="space-y-3">
+                  {catPosts.map(post => (
+                    <li>
+                      <a
+                        href={`${base}${getPath(post.id, post.filePath)}`}
+                        class="inline-block text-accent decoration-dashed underline-offset-4 hover:underline"
+                        style={{ viewTransitionName: slugifyStr(post.data.title.replaceAll(".", "-")) }}
+                      >
+                        {post.data.title}
+                      </a>
+                      <Datetime
+                        pubDatetime={post.data.pubDatetime}
+                        modDatetime={post.data.modDatetime}
+                        timezone={post.data.timezone}
+                      />
+                      {post.data.description && (
+                        <p class="text-base opacity-70">{post.data.description}</p>
+                      )}
+                    </li>
                   ))}
-              </ul>
-            </section>
-          )
+                </ul>
+                <div class="mt-3">
+                  <LinkButton
+                    href={`${base}/categories/${category}/`}
+                    class="group inline-block hover:text-accent"
+                  >
+                    전체 보기
+                    <IconArrowRight class="inline-block rtl:-rotate-180" />
+                  </LinkButton>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : recentPosts.length > 0 && (
+        <section id="recent-posts" class="pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+          <ul>
+            {recentPosts
+              .slice(0, SITE.postPerIndex)
+              .map(data => (
+                <Card variant="h3" {...data} />
+              ))}
+          </ul>
+        </section>
+      )
     }
 
     <div class="my-8 text-center">

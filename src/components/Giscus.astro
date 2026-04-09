@@ -2,43 +2,55 @@
 import { GISCUS } from "@/config";
 
 if (!GISCUS.enabled) return;
+
+const { repo, repoId, category, categoryId, mapping, lang } = GISCUS;
 ---
 
-<div id="giscus-container" class="mt-8">
-  <script
-    src="https://giscus.app/client.js"
-    data-repo={GISCUS.repo}
-    data-repo-id={GISCUS.repoId}
-    data-category={GISCUS.category}
-    data-category-id={GISCUS.categoryId}
-    data-mapping={GISCUS.mapping}
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="top"
-    data-theme="dark"
-    data-lang={GISCUS.lang}
-    crossorigin="anonymous"
-    async
-    is:inline></script>
-</div>
+<div id="giscus-container" class="mt-8"></div>
 
-<script is:inline data-astro-rerun>
-  // 테마 변경 시 Giscus 테마도 동기화
-  function syncGiscusTheme() {
+<script
+  is:inline
+  data-astro-rerun
+  define:vars={{ repo, repoId, category, categoryId, mapping, lang }}
+>
+  function loadGiscus() {
+    const container = document.getElementById("giscus-container");
+    if (!container) return;
+
+    // 기존 내용 제거 후 재생성 (View Transitions 대응)
+    container.innerHTML = "";
+
     const theme = document.documentElement.dataset.theme ?? "dark";
-    const giscusFrame = document.querySelector("iframe.giscus-frame");
-    if (!giscusFrame) return;
-    giscusFrame.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme } } },
-      "https://giscus.app"
-    );
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", repo);
+    script.setAttribute("data-repo-id", repoId);
+    script.setAttribute("data-category", category);
+    script.setAttribute("data-category-id", categoryId);
+    script.setAttribute("data-mapping", mapping);
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", theme);
+    script.setAttribute("data-lang", lang);
+    script.setAttribute("crossorigin", "anonymous");
+    script.async = true;
+
+    container.appendChild(script);
   }
 
-  // 페이지 로드 후 현재 테마로 초기 동기화
-  document.addEventListener("astro:page-load", () => {
-    setTimeout(syncGiscusTheme, 500);
-  });
+  document.addEventListener("astro:page-load", loadGiscus);
 
-  document.addEventListener("theme-changed", syncGiscusTheme);
+  document.addEventListener("theme-changed", () => {
+    const theme = document.documentElement.dataset.theme ?? "dark";
+    const giscusFrame = document.querySelector("iframe.giscus-frame");
+    if (giscusFrame) {
+      giscusFrame.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+      );
+    }
+  });
 </script>
