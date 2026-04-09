@@ -11,7 +11,6 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import IconCalendar from "@/assets/icons/IconCalendar.svg";
 import { SITE } from "@/config";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -31,6 +30,13 @@ for (const post of sortedPosts) {
   }
 }
 const categoryEntries = [...categoryMap.entries()];
+
+// 썸네일 카드 공용 헬퍼
+function getImgSrc(post: (typeof sortedPosts)[number]) {
+  const { ogImage } = post.data;
+  if (ogImage) return typeof ogImage === "string" ? ogImage : ogImage.src;
+  return `${base}${getPath(post.id, post.filePath)}/index.png`;
+}
 ---
 
 <Layout>
@@ -51,7 +57,7 @@ const categoryEntries = [...categoryMap.entries()];
       </div>
     </section>
 
-    <!-- Featured 섹션: 수직 그리드 카드 (이미지 상단) -->
+    <!-- Featured 섹션: 수직 그리드 카드 -->
     {
       featuredPosts.length > 0 && (
         <section
@@ -61,25 +67,22 @@ const categoryEntries = [...categoryMap.entries()];
           <h2 class="mb-6 text-2xl font-semibold tracking-wide">Featured</h2>
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
             {featuredPosts.map(post => {
-              const { title, description, ogImage, category, ...dtProps } = post.data;
-              const imgSrc = ogImage
-                ? typeof ogImage === "string" ? ogImage : ogImage.src
-                : `${base}${getPath(post.id, post.filePath)}/index.png`;
+              const { title, description, category, ...dtProps } = post.data;
               return (
-                <li>
+                <li class="flex">
                   <a
                     href={`${base}${getPath(post.id, post.filePath)}`}
-                    class="group block overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
+                    class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
                   >
                     <div class="aspect-video w-full overflow-hidden bg-muted">
                       <img
-                        src={imgSrc}
+                        src={getImgSrc(post)}
                         alt={title}
                         class="h-full w-full object-cover"
                         loading="lazy"
                       />
                     </div>
-                    <div class="p-4">
+                    <div class="flex flex-col flex-1 p-4">
                       {category && (
                         <p class="text-xs font-medium opacity-70">{category}</p>
                       )}
@@ -89,7 +92,7 @@ const categoryEntries = [...categoryMap.entries()];
                       >
                         {title}
                       </h3>
-                      <p class="mt-1 line-clamp-5 text-base opacity-80">{description}</p>
+                      <p class="mt-1 line-clamp-3 text-base opacity-80 flex-1">{description}</p>
                       <div class="mt-2">
                         <Datetime {...dtProps} />
                       </div>
@@ -103,60 +106,69 @@ const categoryEntries = [...categoryMap.entries()];
       )
     }
 
-    <!-- 카테고리별 섹션: 2열 그리드 + 텍스트 리스트 -->
+    <!-- 카테고리별 섹션: 썸네일 카드 그리드 -->
     {
-      categoryEntries.length > 0 ? (
-        <section class="pt-12 pb-6 border-b border-border">
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-            {categoryEntries.map(([category, catPosts]) => (
-              <div class="pt-6 pb-4">
-                <h2 class="mb-4 text-xl font-semibold tracking-wide">{category}</h2>
-                <ul class="space-y-3">
-                  {catPosts.map(post => (
-                    <li>
+      categoryEntries.length > 0
+        ? categoryEntries.map(([category, catPosts]) => (
+            <section class="pt-12 pb-6 border-b border-border">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-semibold tracking-wide">{category}</h2>
+                <LinkButton
+                  href={`${base}/categories/${category}/`}
+                  class="group inline-block hover:text-accent"
+                >
+                  전체 보기
+                  <IconArrowRight class="inline-block rtl:-rotate-180" />
+                </LinkButton>
+              </div>
+              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {catPosts.map(post => {
+                  const { title, description, ...dtProps } = post.data;
+                  return (
+                    <li class="flex">
                       <a
                         href={`${base}${getPath(post.id, post.filePath)}`}
-                        class="inline-block text-accent decoration-dashed underline-offset-4 hover:underline"
-                        style={{ viewTransitionName: slugifyStr(post.data.title.replaceAll(".", "-")) }}
+                        class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
                       >
-                        {post.data.title}
+                        <div class="aspect-video w-full overflow-hidden bg-muted">
+                          <img
+                            src={getImgSrc(post)}
+                            alt={title}
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="flex flex-col flex-1 p-4">
+                          <h3
+                            class="text-lg font-medium text-accent decoration-dashed group-hover:underline"
+                            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+                          >
+                            {title}
+                          </h3>
+                          <p class="mt-1 line-clamp-3 text-base opacity-80 flex-1">{description}</p>
+                          <div class="mt-2">
+                            <Datetime {...dtProps} />
+                          </div>
+                        </div>
                       </a>
-                      <Datetime
-                        pubDatetime={post.data.pubDatetime}
-                        modDatetime={post.data.modDatetime}
-                        timezone={post.data.timezone}
-                      />
-                      {post.data.description && (
-                        <p class="text-base opacity-70">{post.data.description}</p>
-                      )}
                     </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))
+        : recentPosts.length > 0 && (
+            <section id="recent-posts" class="pt-12 pb-6">
+              <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+              <ul>
+                {recentPosts
+                  .slice(0, SITE.postPerIndex)
+                  .map(data => (
+                    <Card variant="h3" {...data} />
                   ))}
-                </ul>
-                <div class="mt-3">
-                  <LinkButton
-                    href={`${base}/categories/${category}/`}
-                    class="group inline-block hover:text-accent"
-                  >
-                    전체 보기
-                    <IconArrowRight class="inline-block rtl:-rotate-180" />
-                  </LinkButton>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts
-              .slice(0, SITE.postPerIndex)
-              .map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-          </ul>
-        </section>
-      )
+              </ul>
+            </section>
+          )
     }
 
     <div class="my-8 text-center">
