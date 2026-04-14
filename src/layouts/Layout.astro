@@ -22,7 +22,9 @@ const {
   author = SITE.author,
   profile = SITE.profile,
   description = SITE.desc,
-  ogImage = SITE.ogImage ? `/${SITE.ogImage}` : "/og.png",
+  ogImage = SITE.ogImage
+    ? `${import.meta.env.BASE_URL}${SITE.ogImage}`
+    : `${import.meta.env.BASE_URL}og.png`,
   canonicalURL = new URL(Astro.url.pathname, Astro.url),
   pubDatetime,
   modDatetime,
