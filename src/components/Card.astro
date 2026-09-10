@@ -2,19 +2,26 @@
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
+import PostThumbnail from "./PostThumbnail.astro";
 import Datetime from "./Datetime.astro";
 
 type Props = {
   variant?: "h2" | "h3";
+  showImage?: boolean;
 } & CollectionEntry<"blog">;
 
-const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+const { variant: Heading = "h2", id, data, filePath, showImage = false } = Astro.props;
 
 const { title, description, ...props } = data;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <li class="my-6">
+  {showImage && (
+    <a href={`${base}${getPath(id, filePath)}`} aria-label={title} class="mb-3 block overflow-hidden rounded-lg border border-border">
+      <PostThumbnail post={Astro.props} />
+    </a>
+  )}
   <a
     href={`${base}${getPath(id, filePath)}`}
     class:list={[

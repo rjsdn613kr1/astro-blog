@@ -43,8 +43,8 @@ const { posts } = Astro.props;
     pageDesc={`All the articles in the "${category}" category.`}
   >
     {category === "여행" && <TravelChannel />}
-    <ul>
-      {posts.map(data => <Card {...data} />)}
+    <ul class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+      {posts.map(data => <Card {...data} showImage />)}
     </ul>
   </Main>
   <Footer />

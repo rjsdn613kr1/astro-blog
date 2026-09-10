@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostImage } from "@/utils/getPostImage";
+interface Props { post: CollectionEntry<"blog"> }
+const { post } = Astro.props;
+const { src, fallback } = getPostImage(post);
+---
+<div class="aspect-video w-full overflow-hidden bg-muted">
+  <img src={src} alt="" class="h-full w-full object-cover" loading="lazy"
+    decoding="async" referrerpolicy="no-referrer" data-fallback={fallback}
+    onerror="this.onerror=null; if(this.src!==this.dataset.fallback) this.src=this.dataset.fallback;" />
+</div>

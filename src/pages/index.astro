@@ -7,6 +7,7 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
+import PostThumbnail from "@/components/PostThumbnail.astro";
 import Datetime from "@/components/Datetime.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 import { getPath } from "@/utils/getPath";
@@ -34,12 +35,7 @@ for (const post of sortedPosts) {
 }
 const categoryEntries = [...categoryMap.entries()];
 
-// 썸네일 카드 공용 헬퍼
-function getImgSrc(post: (typeof sortedPosts)[number]) {
-  const { ogImage } = post.data;
-  if (ogImage) return typeof ogImage === "string" ? ogImage : ogImage.src;
-  return `${base}${getPath(post.id, post.filePath)}/index.png`;
-}
+
 ---
 
 <Layout>
@@ -77,14 +73,7 @@ function getImgSrc(post: (typeof sortedPosts)[number]) {
                     href={`${base}${getPath(post.id, post.filePath)}`}
                     class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
                   >
-                    <div class="aspect-video w-full overflow-hidden bg-muted">
-                      <img
-                        src={getImgSrc(post)}
-                        alt={title}
-                        class="h-full w-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
+                    <PostThumbnail post={post} />
                     <div class="flex flex-col flex-1 p-4">
                       {category && (
                         <p class="text-xs font-medium opacity-70">{category}</p>
@@ -134,14 +123,7 @@ function getImgSrc(post: (typeof sortedPosts)[number]) {
                         href={`${base}${getPath(post.id, post.filePath)}`}
                         class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
                       >
-                        <div class="aspect-video w-full overflow-hidden bg-muted">
-                          <img
-                            src={getImgSrc(post)}
-                            alt={title}
-                            class="h-full w-full object-cover"
-                            loading="lazy"
-                          />
-                        </div>
+                        <PostThumbnail post={post} />
                         <div class="flex flex-col flex-1 p-4">
                           <h3
                             class="text-lg font-medium text-accent decoration-dashed group-hover:underline"
