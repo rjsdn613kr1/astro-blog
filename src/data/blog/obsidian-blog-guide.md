@@ -4,7 +4,7 @@ author: suko_yasa
 pubDatetime: 2026-04-04T12:00:00+09:00
 modDatetime:
 description: "Obsidian에서 글 쓰고 Git으로 자동 배포까지 — 이 블로그의 실제 글쓰기 흐름을 처음부터 따라할 수 있게 정리했다."
-category: 도구
+category: "개발 및 도구"
 tags:
   - obsidian
   - 블로그

@@ -4,7 +4,7 @@ author: suko_yasa
 pubDatetime: 2026-04-09T10:00:00+09:00
 modDatetime: 2026-04-09T20:02:27+09:00
 description: "flowkater.io를 레퍼런스로 AstroPaper 블로그에 적용한 7가지 커스터마이징: 카드 크기, 탭 타이틀, 파비콘, OG 이미지, 한글 폰트, 댓글, 다크모드 설정 방법 정리"
-category: 개발
+category: "개발 및 도구"
 tags:
   - AstroPaper
   - Astro

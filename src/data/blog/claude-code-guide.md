@@ -4,7 +4,7 @@ author: suko_yasa
 pubDatetime: 2026-04-04T10:00:00+09:00
 modDatetime: 2026-04-04T10:05:00+09:00
 description: "Claude Code CLI 설치부터 훅·하네스 자동화까지, 이 블로그를 실제로 관리하는 방식을 정리했다."
-category: 도구
+category: "개발 및 도구"
 tags:
   - claude
   - ai
