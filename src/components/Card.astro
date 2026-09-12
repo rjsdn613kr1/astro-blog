@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
 import PostThumbnail from "./PostThumbnail.astro";
+import { getPostExcerpt } from "@/utils/getPostExcerpt";
 import Datetime from "./Datetime.astro";
 
 type Props = {
@@ -38,5 +39,5 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     </Heading>
   </a>
   <Datetime {...props} />
-  <p>{description}</p>
+  <p class="line-clamp-3">{getPostExcerpt(Astro.props.body)}</p>
 </li>
