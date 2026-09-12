@@ -18,21 +18,39 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 </Layout>
 
 <script>
-  function initSearch() {
-    const pageFindSearch: HTMLElement | null =
-      document.querySelector("#pagefind-search");
+  type SearchInstance = {
+    destroy: () => void;
+    triggerSearch: (query: string) => void;
+  };
 
-    if (!pageFindSearch || pageFindSearch.dataset.initialized) return;
-    pageFindSearch.dataset.initialized = "true";
+  let searchInstance: SearchInstance | undefined;
+  let searchContainer: HTMLElement | null = null;
+  let initializationId = 0;
+  let searchEvents: AbortController | undefined;
+
+  async function initSearch() {
+    const pageFindSearch =
+      document.querySelector<HTMLElement>("#pagefind-search");
+
+    if (!pageFindSearch || searchContainer === pageFindSearch) return;
+
+    const currentInitializationId = ++initializationId;
+    searchContainer = pageFindSearch;
+    pageFindSearch.replaceChildren();
 
     const params = new URLSearchParams(window.location.search);
 
-    const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
-
-    onIdle(async () => {
+    try {
       // @ts-expect-error — Missing types for @pagefind/default-ui package.
       const { PagefindUI } = await import("@pagefind/default-ui");
-      if (!pageFindSearch.isConnected) return;
+
+      if (
+        currentInitializationId !== initializationId ||
+        searchContainer !== pageFindSearch ||
+        !pageFindSearch.isConnected
+      ) {
+        return;
+      }
 
       // Display warning inn dev mode
       if (import.meta.env.DEV) {
@@ -45,8 +63,8 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       }
 
       // Init pagefind ui
-      const search = new PagefindUI({
-        element: "#pagefind-search",
+      searchInstance = new PagefindUI({
+        element: pageFindSearch,
         bundlePath: `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/`,
         showImages: false,
         showSubResults: true,
@@ -64,24 +82,45 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       // If search param exists (eg: search?q=astro), trigger search
       const query = params.get("q");
       if (query) {
-        search.triggerSearch(query);
+        searchInstance?.triggerSearch(query);
       }
 
       // Reset search param if search input is cleared
-      const searchInput = document.querySelector(".pagefind-ui__search-input");
-      const clearButton = document.querySelector(".pagefind-ui__search-clear");
-      searchInput?.addEventListener("input", resetSearchParam);
-      clearButton?.addEventListener("click", resetSearchParam);
+      const searchInput = pageFindSearch.querySelector<HTMLInputElement>(
+        ".pagefind-ui__search-input"
+      );
+      const clearButton = pageFindSearch.querySelector(
+        ".pagefind-ui__search-clear"
+      );
+      searchEvents = new AbortController();
+      const listenerOptions = { signal: searchEvents.signal };
+      searchInput?.addEventListener("input", resetSearchParam, listenerOptions);
+      clearButton?.addEventListener("click", resetSearchParam, listenerOptions);
 
       function resetSearchParam() {
-        if ((searchInput as HTMLInputElement)?.value.trim() === "") {
+        if (searchInput?.value.trim() === "") {
           history.replaceState(history.state, "", window.location.pathname);
         }
       }
-    });
+    } catch {
+      if (pageFindSearch.isConnected) {
+        pageFindSearch.textContent =
+          "검색을 불러오지 못했습니다. 페이지를 새로고침해 주세요.";
+      }
+    }
+  }
+
+  function destroySearch() {
+    initializationId += 1;
+    searchEvents?.abort();
+    searchEvents = undefined;
+    searchInstance?.destroy();
+    searchInstance = undefined;
+    searchContainer = null;
   }
 
   document.addEventListener("astro:page-load", initSearch);
+  document.addEventListener("astro:before-swap", destroySearch);
   initSearch();
 </script>
 
