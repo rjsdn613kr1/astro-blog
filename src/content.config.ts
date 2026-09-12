@@ -15,7 +15,12 @@ const blog = defineCollection({
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
       tags: z.array(z.string().min(1)).default([]),
-      category: z.string().optional(),
+      category: z.preprocess(
+        value => value === null || (typeof value === "string" && !value.trim())
+          ? "블로그"
+          : value,
+        z.string().optional()
+      ),
       ogImage: image().or(z.string()).optional(),
       description: z.string().default(""),
       canonicalURL: z.string().optional(),
