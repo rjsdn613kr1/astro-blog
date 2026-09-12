@@ -12,7 +12,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 <Layout title={`Search | ${SITE.title}`}>
   <Header />
   <Main pageTitle="Search" pageDesc="Search any article ...">
-    <div id="pagefind-search" transition:persist data-backurl={backUrl}></div>
+    <div id="pagefind-search" data-backurl={backUrl}></div>
   </Main>
   <Footer />
 </Layout>
@@ -22,7 +22,8 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
     const pageFindSearch: HTMLElement | null =
       document.querySelector("#pagefind-search");
 
-    if (!pageFindSearch) return;
+    if (!pageFindSearch || pageFindSearch.dataset.initialized) return;
+    pageFindSearch.dataset.initialized = "true";
 
     const params = new URLSearchParams(window.location.search);
 
@@ -31,6 +32,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
     onIdle(async () => {
       // @ts-expect-error — Missing types for @pagefind/default-ui package.
       const { PagefindUI } = await import("@pagefind/default-ui");
+      if (!pageFindSearch.isConnected) return;
 
       // Display warning inn dev mode
       if (import.meta.env.DEV) {
@@ -45,6 +47,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       // Init pagefind ui
       const search = new PagefindUI({
         element: "#pagefind-search",
+        bundlePath: `${import.meta.env.BASE_URL.replace(/\/$/, "")}/pagefind/`,
         showImages: false,
         showSubResults: true,
         processTerm: function (term: string) {
@@ -70,22 +73,15 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       searchInput?.addEventListener("input", resetSearchParam);
       clearButton?.addEventListener("click", resetSearchParam);
 
-      function resetSearchParam(e: Event) {
-        if ((e.target as HTMLInputElement)?.value.trim() === "") {
+      function resetSearchParam() {
+        if ((searchInput as HTMLInputElement)?.value.trim() === "") {
           history.replaceState(history.state, "", window.location.pathname);
         }
       }
     });
   }
 
-  document.addEventListener("astro:after-swap", () => {
-    const pagefindSearch = document.querySelector("#pagefind-search");
-
-    // if pagefind search form already exists, don't initialize search component
-    if (pagefindSearch && pagefindSearch.querySelector("form")) return;
-
-    initSearch();
-  });
+  document.addEventListener("astro:page-load", initSearch);
   initSearch();
 </script>
 
