@@ -28,3 +28,10 @@ pnpm-debug.log*
 public/pagefind
 # Obsidian
 src/data/blog/.obsidian/
+.obsidian/workspace.json
+.obsidian/graph.json
+.obsidian/plugins/*/data.json
+
+# private local documents
+*.pptx
+*.xlsx

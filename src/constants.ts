@@ -36,12 +36,6 @@ export const SOCIALS: Social[] = [
     linkTitle: `${SITE.author} on Threads`,
     icon: IconThreads,
   },
-  {
-    name: "Mail",
-    href: "mailto:rjsdn613@gmail.com",
-    linkTitle: `Send an email to ${SITE.author}`,
-    icon: IconMail,
-  },
 ] as const;
 
 export const SHARE_LINKS: Social[] = [

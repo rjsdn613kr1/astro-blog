@@ -9,8 +9,8 @@ description: "AstroPaper 블로그 작업의 메인 오케스트레이터. 블�
 올바른 패턴 — Agent 호출 전에 정의 파일을 Read하고, 내용을 프롬프트에 임베드한다.
 
 ```
-① Read /Users/ggoungwoo/Desktop/astro-blog/.claude/agents/blog-writer.md   ← 에이전트 정의
-② Read /Users/ggoungwoo/Desktop/astro-blog/.claude/skills/write-post/SKILL.md ← 스킬 가이드
+① Read .claude/agents/blog-writer.md   ← 에이전트 정의
+② Read .claude/skills/write-post/SKILL.md ← 스킬 가이드
 ③ Agent(subagent_type: "general-purpose", model: "sonnet",
         prompt: "[①의 내용]\n\n[②의 내용]\n\n[실제 작업 지시]")
 ```
@@ -37,7 +37,7 @@ Phase 2 — 작성:
           ---
           위 역할과 스킬 기준으로 다음 포스트를 작성한다:
           주제: {주제}
-          출력 경로: /Users/ggoungwoo/Desktop/astro-blog/src/data/blog/{파일명}.md
+          출력 경로: src/data/blog/{파일명}.md
         """)
 
 Phase 3 — 검토 컨텍스트 로드 (병렬):
@@ -52,7 +52,7 @@ Phase 4 — 검토:
           [review-post/SKILL.md 전체 내용]
           ---
           위 역할과 스킬 기준으로 다음 파일을 검토한다:
-          /Users/ggoungwoo/Desktop/astro-blog/src/data/blog/{파일명}.md
+          src/data/blog/{파일명}.md
         """)
 
 Phase 5 — 🚨 이슈 있으면 blog-writer로 수정 후 재검토

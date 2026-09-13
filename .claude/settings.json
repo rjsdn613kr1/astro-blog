@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /Users/ggoungwoo/Desktop/astro-blog/.claude/hooks/update-mod-datetime.sh"
+            "command": "bash .claude/hooks/update-mod-datetime.sh"
           }
         ]
       }
