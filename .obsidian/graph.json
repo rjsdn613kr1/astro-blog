@@ -1,0 +1,30 @@
+{
+  "collapse-filter": false,
+  "search": "(path:\"Naver Imports/ggoungwoo/\" OR path:\"src/data/blog/\") -path:\"src/data/blog/naver/\" -path:\"src/data/blog/templates/\" -path:\"src/data/blog/examples/\" -path:\"src/data/blog/_releases/\" -path:\"src/data/blog/how-to-configure-astropaper-theme.md\" -path:\"src/data/blog/how-to-add-latex-equations-in-blog-posts.md\" -path:\"src/data/blog/predefined-color-schemes.md\" -path:\"src/data/blog/adding-new-post.md\" -path:\"src/data/blog/setting-dates-via-git-hooks.md\" -path:\"src/data/blog/customizing-astropaper-theme-color-schemes.md\" -path:\"src/data/blog/how-to-update-dependencies.md\" -path:\"src/data/blog/dynamic-og-images.md\" -path:\"src/data/blog/how-to-integrate-giscus-comments.md\"",
+  "showTags": true,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": true,
+  "collapse-color-groups": true,
+  "colorGroups": [
+    {
+      "query": "",
+      "color": {
+        "a": 1,
+        "rgb": 14701138
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1.28842013888889,
+  "lineSizeMultiplier": 3.28287326388889,
+  "collapse-forces": false,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.11660891579457303,
+  "close": true
+}

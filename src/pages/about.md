@@ -1,11 +1,11 @@
 ---
 layout: ../layouts/AboutLayout.astro
-title: "About"
+title: "**G.D.**"
 ---
 
-안녕하세요, **G.D.**입니다.
+안녕하세요, **G.D.** 입니다.
 
-생각과 경험을 기록하는 공간입니다.
+방문해 주셔서 감사합니다.
 
 ## Contact
 

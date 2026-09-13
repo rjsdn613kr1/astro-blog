@@ -1,0 +1,9 @@
+{
+  "id": "astro-auto-publish",
+  "name": "Astro Auto Publish",
+  "version": "1.0.0",
+  "minAppVersion": "1.8.7",
+  "description": "Publish changed blog files after a successful build.",
+  "author": "Local",
+  "isDesktopOnly": true
+}

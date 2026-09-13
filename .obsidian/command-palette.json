@@ -1,0 +1,6 @@
+{
+  "pinned": [
+    "astro-auto-publish:new-post",
+    "astro-auto-publish:publish"
+  ]
+}

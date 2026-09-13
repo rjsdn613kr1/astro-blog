@@ -1,3 +1,5 @@
 {
-  "attachmentFolderPath": "src/data/blog/images"
+  "attachmentFolderPath": "src/data/blog/images",
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative"
 }

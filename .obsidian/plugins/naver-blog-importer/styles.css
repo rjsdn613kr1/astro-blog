@@ -1,0 +1,756 @@
+/* Naver Blog Importer Plugin Styles */
+
+/* ============================================================================
+   Import Modal Styles (Social Archiver inspired)
+   ============================================================================ */
+
+.naver-import-modal {
+    width: 90%;
+    max-width: 550px;
+}
+
+.naver-import-modal .modal-content {
+    padding: 0;
+}
+
+.naver-import-modal-title {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.naver-import-url-container {
+    margin-bottom: 16px;
+}
+
+.naver-import-url-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: var(--font-monospace);
+    font-size: 13px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: var(--input-radius);
+    background: var(--background-primary);
+    color: var(--text-normal);
+    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.naver-import-url-input:focus {
+    outline: none;
+    border-color: var(--interactive-accent);
+}
+
+.naver-import-url-input::placeholder {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.naver-import-platform-badge {
+    margin-bottom: 12px;
+    padding: 6px 0;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.naver-import-platform-badge--valid {
+    color: var(--text-accent);
+}
+
+.naver-import-platform-badge--error {
+    color: var(--text-error);
+}
+
+.naver-import-options-container {
+    margin-bottom: 16px;
+}
+
+.naver-import-options-container.is-hidden {
+    display: none;
+}
+
+.naver-import-post-count-input {
+    width: 80px;
+}
+
+.naver-import-options-container .setting-item {
+    border-top: none;
+    padding: 8px 0;
+}
+
+.naver-import-options-container .setting-item:first-child {
+    padding-top: 0;
+}
+
+.naver-import-options-container .setting-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.naver-import-options-container .setting-item-name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.naver-import-options-container .setting-item-description {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.naver-import-button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+.naver-import-button-container button {
+    min-width: 80px;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.naver-import-button-container button.mod-cta {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+}
+
+.naver-import-button-container button.mod-cta:hover {
+    background: var(--interactive-accent-hover);
+}
+
+.naver-import-button-container button.mod-cta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .naver-import-modal {
+        width: 100%;
+        max-width: none;
+    }
+
+    .naver-import-button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .naver-import-button-container button {
+        width: 100%;
+        min-height: 44px;
+    }
+}
+
+/* ============================================================================
+   Legacy Modal Styles
+   ============================================================================ */
+
+.naver-blog-modal {
+    min-width: 400px;
+}
+
+.naver-blog-modal .modal-title {
+    margin-bottom: var(--size-4-4);
+}
+
+.naver-blog-progress {
+    margin: var(--size-4-2) 0;
+    padding: var(--size-4-2);
+    background: var(--background-secondary);
+    border-radius: var(--radius-s);
+}
+
+.naver-blog-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--background-modifier-border);
+    border-radius: var(--radius-s);
+    overflow: hidden;
+}
+
+.naver-blog-progress-fill {
+    height: 100%;
+    background: var(--interactive-accent);
+    transition: width 0.3s ease;
+}
+
+.naver-blog-status {
+    margin-top: var(--size-4-2);
+    font-size: var(--font-ui-smaller);
+    color: var(--text-muted);
+}
+
+.naver-blog-error {
+    color: var(--text-error);
+    background: var(--background-modifier-error);
+    padding: var(--size-4-2);
+    border-radius: var(--radius-s);
+    margin: var(--size-4-2) 0;
+}
+
+.naver-blog-success {
+    color: var(--text-success);
+    background: var(--background-modifier-success);
+    padding: var(--size-4-2);
+    border-radius: var(--radius-s);
+    margin: var(--size-4-2) 0;
+}
+
+.naver-blog-settings {
+    padding: var(--size-4-4);
+}
+
+.naver-blog-settings .setting-item-description {
+    margin-top: var(--size-4-1);
+}
+
+.naver-blog-import-button {
+    width: 100%;
+    margin-top: var(--size-4-4);
+}
+
+/* Modal Input Styles */
+.naver-blog-input-container {
+    margin-bottom: 20px;
+}
+
+.naver-blog-input-label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.naver-blog-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+}
+
+.naver-blog-example {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Detection status styles */
+.naver-blog-detection {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.naver-blog-detection--error {
+    color: var(--text-error);
+}
+
+.naver-blog-button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Blog Item Styles */
+.naver-subscription-wrapper {
+    margin-bottom: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.naver-subscription-wrapper .naver-blog-item {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.naver-subscription-meta {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--background-secondary);
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Card layout meta section */
+.naver-subscription-card > .naver-subscription-meta {
+    margin-top: 10px;
+    padding: 6px 0;
+    font-size: 10px;
+    color: var(--text-faint);
+    background: none;
+}
+
+/* Brunch Subscription Card Styles */
+.brunch-subscription-card {
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    background: var(--background-primary);
+}
+
+.brunch-subscription-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.brunch-profile-image {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--background-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brunch-profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.brunch-profile-placeholder {
+    font-size: 20px;
+}
+
+.brunch-author-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.brunch-author-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.brunch-author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.brunch-author-username {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.brunch-author-title {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.brunch-author-description {
+    font-size: 11px;
+    color: var(--text-accent);
+}
+
+.brunch-subscriber-count {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.brunch-subscription-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.brunch-post-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.brunch-count-label {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.brunch-count-input {
+    width: 50px;
+    padding: 3px 6px;
+    font-size: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+}
+
+.brunch-subscription-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.brunch-sync-button,
+.brunch-remove-button {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.brunch-sync-button {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+}
+
+.brunch-sync-button:hover {
+    background: var(--interactive-accent-hover);
+}
+
+.brunch-remove-button {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.brunch-remove-button:hover {
+    background: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+.brunch-subscription-meta {
+    margin-top: 8px;
+    padding-top: 6px;
+    font-size: 10px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Naver Blog Subscription Card Styles */
+.naver-subscription-card {
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    background: var(--background-primary);
+}
+
+.naver-subscription-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.naver-profile-image {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--background-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.naver-profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.naver-profile-placeholder {
+    font-size: 20px;
+}
+
+.naver-author-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.naver-author-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.naver-author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-normal);
+}
+
+.naver-author-blogid {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.naver-author-bio {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    word-break: break-word;
+    padding-bottom: 2px;
+}
+
+.naver-subscription-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.naver-post-count {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.naver-count-input {
+    width: 50px;
+    padding: 3px 6px;
+    font-size: 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+}
+
+.naver-subscription-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.naver-sync-button,
+.naver-remove-button {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.naver-sync-button {
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+}
+
+.naver-sync-button:hover {
+    background: var(--interactive-accent-hover);
+}
+
+.naver-remove-button {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.naver-remove-button:hover {
+    background: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+.naver-blog-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.naver-blog-count-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.naver-blog-count-label {
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+.naver-blog-count-input {
+    width: 60px;
+    padding: 2px 4px;
+    font-size: 0.9em;
+}
+
+.naver-blog-sync-button {
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+.naver-blog-remove-button {
+    font-size: 0.8em;
+    padding: 4px 8px;
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+}
+
+/* Folder Suggest Modal Styles */
+.naver-blog-folder-input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.naver-blog-folder-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.naver-blog-folder-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.naver-blog-folder-item:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.naver-blog-folder-item:last-child {
+    border-bottom: none;
+}
+
+/* Search Input Wrapper */
+.naver-blog-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+    min-height: 34px;
+}
+
+.naver-blog-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 10;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.naver-blog-search-wrapper .naver-blog-search-input,
+input.naver-blog-search-input[type="text"],
+input.naver-blog-search-input {
+    flex: 1;
+    padding: 8px 40px 8px 32px;
+    border: none;
+    background: transparent;
+    outline: none;
+    min-height: 32px;
+    box-sizing: border-box;
+}
+
+.naver-blog-search-input::placeholder {
+    opacity: 0.6;
+}
+
+.naver-blog-search-clear {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1;
+    z-index: 10;
+}
+
+.naver-blog-search-clear:hover {
+    background-color: var(--background-modifier-hover);
+    color: var(--text-normal);
+}
+
+/* Dropdown Styles */
+.naver-blog-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: var(--shadow-s);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.naver-blog-dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--background-modifier-border);
+    transition: background-color 0.1s;
+}
+
+.naver-blog-dropdown-item:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.naver-blog-dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Cookie Textarea Setting */
+.naver-cookie-setting {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-4-2);
+}
+
+.naver-cookie-setting .setting-item-info {
+    width: 100%;
+    max-width: none;
+}
+
+.naver-cookie-setting .setting-item-control {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.naver-cookie-setting textarea {
+    width: 100%;
+    min-height: 100px;
+    font-family: var(--font-monospace);
+    font-size: var(--font-ui-smaller);
+    resize: vertical;
+}
