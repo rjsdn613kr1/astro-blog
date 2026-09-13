@@ -1,12 +1,13 @@
 ---
 layout: ../layouts/AboutLayout.astro
-title: "G.D."
+title: "About"
 ---
 
 안녕하세요, **G.D.** 입니다.
 
 방문해 주셔서 감사합니다.
 
-## Contact
+## 연락
 
 - Instagram: [@suko_yasa](https://www.instagram.com/suko_yasa/)
+- Email: [rjsdn613@gmail.com](mailto:rjsdn613@gmail.com)

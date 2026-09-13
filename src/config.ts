@@ -4,7 +4,7 @@ export const SITE = {
   profile: "https://github.com/rjsdn613kr1",
   desc: "생각과 경험을 기록하는 공간",
   title: "오온개공",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "squid-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 4,

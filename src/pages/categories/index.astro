@@ -12,19 +12,34 @@ const posts = await getCollection("blog");
 const publishedPosts = posts.filter(p => !p.data.draft);
 
 // 카테고리별 글 수 집계
-const categoryMap = new Map<string, number>();
+const categoryMap = new Map<
+  string,
+  { count: number; tagCounts: Map<string, number> }
+>();
 for (const post of publishedPosts) {
   if (post.data.category) {
-    categoryMap.set(
-      post.data.category,
-      (categoryMap.get(post.data.category) ?? 0) + 1
-    );
+    const category = categoryMap.get(post.data.category) ?? {
+      count: 0,
+      tagCounts: new Map<string, number>(),
+    };
+    category.count += 1;
+    for (const tag of post.data.tags) {
+      category.tagCounts.set(tag, (category.tagCounts.get(tag) ?? 0) + 1);
+    }
+    categoryMap.set(post.data.category, category);
   }
 }
 
 const categories = [...categoryMap.entries()]
-  .sort((a, b) => b[1] - a[1])
-  .map(([name, count]) => ({ name, count }));
+  .sort((a, b) => b[1].count - a[1].count)
+  .map(([name, { count, tagCounts }]) => ({
+    name,
+    count,
+    tags: [...tagCounts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 6)
+      .map(([tag]) => tag),
+  }));
 ---
 
 <Layout title={`Categories | ${SITE.title}`}>
@@ -37,19 +52,21 @@ const categories = [...categoryMap.entries()]
         </p>
       ) : (
         <ul class="flex flex-col gap-4">
-          {categories.map(({ name, count }) => (
+          {categories.map(({ name, count, tags }) => (
             <li>
               <a
                 href={`${base}/categories/${name}/`}
-                class="group flex items-center justify-between rounded-lg border border-border px-5 py-4 hover:border-accent transition-colors"
+                class="group flex items-center justify-between rounded-lg border border-border px-5 py-4 transition-colors hover:border-accent"
               >
                 <div>
-                  <span class="text-lg font-semibold group-hover:text-accent transition-colors">
+                  <span class="text-lg font-semibold transition-colors group-hover:text-accent">
                     {name}
                   </span>
-                  <p class="mt-1 text-sm opacity-60">
-                    All the articles in the "{name}" category.
-                  </p>
+                  {tags.length > 0 && (
+                    <p class="mt-1 text-sm opacity-60">
+                      {tags.map(tag => `#${tag}`).join(" · ")}
+                    </p>
+                  )}
                 </div>
                 <span class="ml-4 shrink-0 rounded-full bg-border px-3 py-1 text-sm font-medium">
                   {count}
