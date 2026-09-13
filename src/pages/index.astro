@@ -25,6 +25,9 @@ const featuredPosts = [...sortedPosts]
   .slice(0, 4);
 const recentPosts = sortedPosts;
 
+// 홈에 표시할 카테고리와 순서
+const homepageCategories = ["블로그", "여행 및 관심사", "개발 및 도구"];
+
 // 카테고리별 최신 글 3개씩 묶기
 const categoryMap = new Map<string, typeof sortedPosts>();
 for (const post of sortedPosts) {
@@ -34,23 +37,20 @@ for (const post of sortedPosts) {
     categoryMap.set(post.data.category, arr);
   }
 }
-const categoryEntries = [...categoryMap.entries()];
-
-
+const categoryEntries = homepageCategories.map(
+  category => [category, categoryMap.get(category) ?? []] as const
+);
 ---
 
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
-
     <!-- 저자 소개 섹션 -->
     <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
         {SITE.author}
       </h1>
-      <p class="my-2 leading-relaxed">
-        생각과 경험을 기록하는 공간입니다.
-      </p>
+      <p class="my-2 leading-relaxed">생각과 경험을 기록하는 공간입니다.</p>
       <div class="mt-4 flex max-sm:flex-col sm:items-center">
         <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
         <Socials />
@@ -72,20 +72,26 @@ const categoryEntries = [...categoryMap.entries()];
                 <li class="flex">
                   <a
                     href={`${base}${getPath(post.id, post.filePath)}`}
-                    class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
+                    class="group flex w-full flex-col overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
                   >
                     <PostThumbnail post={post} />
-                    <div class="flex flex-col flex-1 p-4">
+                    <div class="flex flex-1 flex-col p-4">
                       {category && (
                         <p class="text-xs font-medium opacity-70">{category}</p>
                       )}
                       <h3
                         class="mt-1 text-lg font-medium text-accent decoration-dashed group-hover:underline"
-                        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+                        style={{
+                          viewTransitionName: slugifyStr(
+                            title.replaceAll(".", "-")
+                          ),
+                        }}
                       >
                         {title}
                       </h3>
-                      <p class="mt-1 line-clamp-3 text-base opacity-80 flex-1">{getPostExcerpt(post.body)}</p>
+                      <p class="mt-1 line-clamp-3 flex-1 text-base opacity-80">
+                        {getPostExcerpt(post.body)}
+                      </p>
                       <div class="mt-2">
                         <Datetime {...dtProps} />
                       </div>
@@ -103,8 +109,8 @@ const categoryEntries = [...categoryMap.entries()];
     {
       categoryEntries.length > 0
         ? categoryEntries.map(([category, catPosts]) => (
-            <section class="pt-12 pb-6 border-b border-border">
-              <div class="flex items-center justify-between mb-6">
+            <section class="border-b border-border pt-12 pb-6">
+              <div class="mb-6 flex items-center justify-between">
                 <h2 class="text-2xl font-semibold tracking-wide">{category}</h2>
                 <LinkButton
                   href={`${base}/categories/${category}/`}
@@ -114,45 +120,51 @@ const categoryEntries = [...categoryMap.entries()];
                   <IconArrowRight class="inline-block rtl:-rotate-180" />
                 </LinkButton>
               </div>
-              {category === "여행" && <TravelChannel />}
-              <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {catPosts.map(post => {
-                  const { title, ...dtProps } = post.data;
-                  return (
-                    <li class="flex">
-                      <a
-                        href={`${base}${getPath(post.id, post.filePath)}`}
-                        class="group flex flex-col w-full overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
-                      >
-                        <PostThumbnail post={post} />
-                        <div class="flex flex-col flex-1 p-4">
-                          <h3
-                            class="text-lg font-medium text-accent decoration-dashed group-hover:underline"
-                            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-                          >
-                            {title}
-                          </h3>
-                          <p class="mt-1 line-clamp-3 text-base opacity-80 flex-1">{getPostExcerpt(post.body)}</p>
-                          <div class="mt-2">
-                            <Datetime {...dtProps} />
+              {category === "여행 및 관심사" && <TravelChannel />}
+              {catPosts.length > 0 && (
+                <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {catPosts.map(post => {
+                    const { title, ...dtProps } = post.data;
+                    return (
+                      <li class="flex">
+                        <a
+                          href={`${base}${getPath(post.id, post.filePath)}`}
+                          class="group flex w-full flex-col overflow-hidden rounded-lg border border-border transition-colors hover:border-accent/60 hover:bg-accent/5"
+                        >
+                          <PostThumbnail post={post} />
+                          <div class="flex flex-1 flex-col p-4">
+                            <h3
+                              class="text-lg font-medium text-accent decoration-dashed group-hover:underline"
+                              style={{
+                                viewTransitionName: slugifyStr(
+                                  title.replaceAll(".", "-")
+                                ),
+                              }}
+                            >
+                              {title}
+                            </h3>
+                            <p class="mt-1 line-clamp-3 flex-1 text-base opacity-80">
+                              {getPostExcerpt(post.body)}
+                            </p>
+                            <div class="mt-2">
+                              <Datetime {...dtProps} />
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </section>
           ))
         : recentPosts.length > 0 && (
             <section id="recent-posts" class="pt-12 pb-6">
               <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
               <ul>
-                {recentPosts
-                  .slice(0, SITE.postPerIndex)
-                  .map(data => (
-                    <Card variant="h3" {...data} />
-                  ))}
+                {recentPosts.slice(0, SITE.postPerIndex).map(data => (
+                  <Card variant="h3" {...data} />
+                ))}
               </ul>
             </section>
           )

@@ -12,23 +12,8 @@ const { pathname } = Astro.url;
 const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // "/astro-blog"
 
 const currentPath = pathname.replace(base, "").replace(/\/$/, "") || "/";
-const travelPath = "/categories/여행 및 관심사";
 
 const isActive = (path: string) => {
-  const decodedCurrentPath = decodeURIComponent(currentPath);
-  const decodedPath = decodeURIComponent(path);
-
-  if (decodedPath === travelPath) {
-    return decodedCurrentPath === travelPath;
-  }
-
-  if (decodedPath === "/categories") {
-    return (
-      decodedCurrentPath.startsWith("/categories") &&
-      decodedCurrentPath !== travelPath
-    );
-  }
-
   const currentPathArray = currentPath.split("/").filter(p => p.trim());
   const pathArray = path.split("/").filter(p => p.trim());
   return currentPath === path || currentPathArray[0] === pathArray[0];
@@ -37,10 +22,6 @@ const isActive = (path: string) => {
 const navLinks = [
   { href: "/posts", label: "Posts" },
   { href: "/categories", label: "Categories" },
-  {
-    href: travelPath,
-    label: "여행 및 관심사",
-  },
   { href: "/tags", label: "Tags" },
   { href: "/about", label: "About" },
 ];
