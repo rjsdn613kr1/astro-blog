@@ -11,12 +11,15 @@ import { SITE } from "@/config";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
+  const featuredCategories = ["여행 및 관심사"];
 
   const categories = [
     ...new Set(
-      posts
-        .filter(post => !post.data.draft && post.data.category)
-        .map(post => post.data.category as string)
+      featuredCategories.concat(
+        posts
+          .filter(post => !post.data.draft && post.data.category)
+          .map(post => post.data.category as string)
+      )
     ),
   ];
 

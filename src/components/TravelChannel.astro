@@ -1,42 +1,141 @@
-<aside
-  class="mb-6 rounded-lg border border-border p-5"
-  aria-label="유튜브 채널 소개"
->
-  <p class="text-sm opacity-70">함께 보는 유튜브</p>
-  <h3 class="mt-1 text-xl font-semibold">월간 김선영</h3>
-  <p class="mt-2 leading-relaxed">
-    여행 기록과 함께 소개하는 유튜브 채널, 월간 김선영입니다. 아래 링크에서
-    채널과 영상을 만나보세요.
-  </p>
-  <div class="mt-4 flex flex-wrap gap-4">
+---
+const youtubeVideos: { id: string; title: string }[] = [];
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const instagramAccounts = [
+  {
+    username: "w.c.r.d_fan",
+    profileUrl: "https://www.instagram.com/w.c.r.d_fan/",
+    posts: [
+      {
+        id: "DdLACo_k1Yn",
+        caption:
+          "쇼오텐 덕천, 이에케쇼유와 가지만두 그리고 병맥주\n\n면은 오동통하고 쫄깃해서 맛잇엇는데 길이를 욀케 조사놔서 숟가락으로 떠먹을 수 잇을정도;;\n스프는 감칠맛은 약하고 소금 짠 맛만 쨍하다, 다진마늘은 안 어울리는 거 같았다.",
+      },
+      {
+        id: "DbKN7FNk6W4",
+        caption:
+          "전포, 라멘유메\n이것이 옳게 된 시오라멘이지. 시오는 이래서야만 돼.\n멘마 추가 옵션이 왜 있는지 알겠다. 멘마가 아삭하니 아주 맛잇음. 계란도 완벽하게 쿠킹됨",
+      },
+      {
+        id: "DbCf4OjE4c9",
+        caption:
+          "멘지 서면, 토리파이탄\n아쉽지만 두 번은 안올듯. 대구에선 맛잇엇는데 그 사이 내 입맛이 바뀐걸까... 대구랑 구성도 다른데 멘지 프차 아니엿나\n점바점이 잇는듯하다\n\n#부산라멘 #서면라멘 #토리파이탄 #멘지",
+      },
+      {
+        id: "DajtYM8kSDz",
+        caption:
+          "히사시부리다나 나피라\n\n#나피라 #이에케 #쇼유 #전포라멘 #부산라멘",
+      },
+    ],
+  },
+  {
+    username: "herframe_archive",
+    profileUrl: "https://www.instagram.com/herframe_archive/",
+    posts: ["DchWwwLz6Pf", "DchWt-tzw4t", "DchWrIczejt", "DchWnUyTHb8"].map(
+      id => ({
+        id,
+        caption:
+          ".\n@herframe_archive\n#제주 #Jejuisland #Jeju #fujifilm #여자친구가찍은사진",
+      })
+    ),
+  },
+];
+---
+
+<section class="space-y-10" aria-label="여행 및 관심사">
+  <section
+    class="rounded-lg border border-border p-5"
+    aria-labelledby="youtube-title"
+  >
+    <p class="text-sm opacity-70">YouTube</p>
+    <h2 id="youtube-title" class="mt-1 text-xl font-semibold">월간 김선영</h2>
+    <p class="mt-2 leading-relaxed">여행 기록을 소개하는 유튜브 채널입니다.</p>
     <a
-      class="text-accent underline underline-offset-4"
+      class="mt-3 inline-block text-accent underline underline-offset-4"
       href="https://www.youtube.com/@monthlyksy"
       target="_blank"
       rel="noopener noreferrer">채널 방문하기 ↗</a
     >
-    <a
-      class="text-accent underline underline-offset-4"
-      href="https://www.youtube.com/@monthlyksy/videos"
-      target="_blank"
-      rel="noopener noreferrer">동영상 보기 ↗</a
-    >
-  </div>
-  <div class="mt-5 border-t border-border pt-4">
-    <p class="text-sm opacity-70">Instagram</p>
-    <div class="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-      <a
-        class="text-accent underline underline-offset-4"
-        href="https://www.instagram.com/w.c.r.d_fan/"
-        target="_blank"
-        rel="noopener noreferrer">@w.c.r.d_fan ↗</a
-      >
-      <a
-        class="text-accent underline underline-offset-4"
-        href="https://www.instagram.com/herframe_archive/"
-        target="_blank"
-        rel="noopener noreferrer">@herframe_archive ↗</a
-      >
-    </div>
-  </div>
-</aside>
+
+    {
+      youtubeVideos.length > 0 ? (
+        <div class="mt-5 grid gap-5 sm:grid-cols-2">
+          {youtubeVideos.slice(0, 2).map(video => (
+            <iframe
+              class="aspect-video w-full rounded-lg border-0"
+              src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+              title={video.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-5 rounded-lg bg-muted px-4 py-3 opacity-75">
+          현재 공개된 영상이 없습니다.
+        </p>
+      )
+    }
+  </section>
+
+  {
+    instagramAccounts.map(account => (
+      <section aria-labelledby={`instagram-${account.username}`}>
+        <div class="mb-4 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <p class="text-sm opacity-70">Instagram</p>
+            <h2
+              id={`instagram-${account.username}`}
+              class="mt-1 text-xl font-semibold"
+            >
+              @{account.username}
+            </h2>
+          </div>
+          <a
+            class="text-accent underline underline-offset-4"
+            href={account.profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            계정 방문하기 ↗
+          </a>
+        </div>
+        <div class="grid items-start gap-5 sm:grid-cols-2">
+          {account.posts.map((post, index) => (
+            <article class="overflow-hidden rounded-lg border border-border">
+              <a
+                href={`https://www.instagram.com/p/${post.id}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`@${account.username} 최근 게시물 ${index + 1} 보기`}
+              >
+                <img
+                  class="aspect-square w-full object-cover"
+                  src={`${base}/instagram/${post.id}.webp`}
+                  alt={`@${account.username} 최근 게시물 ${index + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <div class="p-4">
+                <p class="line-clamp-5 text-sm leading-relaxed whitespace-pre-line">
+                  {post.caption}
+                </p>
+                <a
+                  class="mt-3 inline-block text-sm text-accent underline underline-offset-4"
+                  href={`https://www.instagram.com/p/${post.id}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram에서 보기 ↗
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</section>
