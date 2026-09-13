@@ -3,7 +3,7 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-안녕하세요, **suko_yasa**입니다.
+안녕하세요, **G. D.**입니다.
 
 생각과 경험을 기록하는 공간입니다.
 

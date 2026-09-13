@@ -46,7 +46,7 @@ const categoryEntries = [...categoryMap.entries()];
     <!-- 저자 소개 섹션 -->
     <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        G.D
+        {SITE.author}
       </h1>
       <p class="my-2 leading-relaxed">
         생각과 경험을 기록하는 공간입니다.
@@ -67,7 +67,7 @@ const categoryEntries = [...categoryMap.entries()];
           <h2 class="mb-6 text-2xl font-semibold tracking-wide">Featured</h2>
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
             {featuredPosts.map(post => {
-              const { title, description, category, ...dtProps } = post.data;
+              const { title, category, ...dtProps } = post.data;
               return (
                 <li class="flex">
                   <a
@@ -117,7 +117,7 @@ const categoryEntries = [...categoryMap.entries()];
               {category === "여행" && <TravelChannel />}
               <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {catPosts.map(post => {
-                  const { title, description, ...dtProps } = post.data;
+                  const { title, ...dtProps } = post.data;
                   return (
                     <li class="flex">
                       <a

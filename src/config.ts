@@ -1,9 +1,9 @@
 export const SITE = {
   website: "https://rjsdn613kr1.github.io/astro-blog/",
-  author: "suko_yasa",
+  author: "G. D.",
   profile: "https://github.com/rjsdn613kr1",
   desc: "생각과 경험을 기록하는 공간",
-  title: "suko_yasa",
+  title: "五蘊皆空",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
