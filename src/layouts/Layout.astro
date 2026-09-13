@@ -34,9 +34,11 @@ const {
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const pageTitle =
-  title !== SITE.title
-    ? `${title} | ${SITE.title}`
-    : `${SITE.title} | ${SITE.desc}`;
+  title === SITE.title
+    ? `${SITE.title} | ${SITE.desc}`
+    : title.endsWith(` | ${SITE.title}`)
+      ? title
+      : `${title} | ${SITE.title}`;
 
 const socialImageURL = new URL(ogImage, Astro.url);
 
